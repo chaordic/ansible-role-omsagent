@@ -54,5 +54,3 @@
     enabled: yes
   when:
     - omsagent_service_state | length
-
-- debug: msg="{{ omsagent_tmp }}/omsagent-{{ omsagent_version }}.universal.{{ omsagent_creates_pattern }}.sh"
