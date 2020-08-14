@@ -2,12 +2,17 @@
 # vars file for omsagent
 
 _omsagent_requirements:
-  default:
+  Debian:
+    - linux-libc-dev
+    - python3-libtiff
+    - libpam-modules
+  RedHat:
     - glibc
-    - openssl
-    - curl
     - python-ctypes
     - pam
+  default:
+    - openssl
+    - curl
     - wget
     - which
 

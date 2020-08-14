@@ -14,6 +14,13 @@
     dest: "{{ omsagent_tmp }}"
     mode: "750"
 
+- name: Correct python version selected
+  alternatives:
+    link: /usr/bin/python
+    name: python
+    path: "{{ discovered_interpreter_python }}"
+    priority: 0
+
 - name: ensure directory exist
   file:
     path: /etc/opt/microsoft/omsagent
@@ -32,9 +39,9 @@
 
 - name: run script (can take a couple of minutes)
   command: "{{ omsagent_tmp }}/onboard_agent.sh"
+  register: shell_res
   args:
-    creates: omsagent-{{ omsagent_version }}.universal.{{ omsagent_creates_pattern }}.sh
-    chdir: "{{ omsagent_tmp }}"
+    creates: /opt/omi/bin/omiserver
 
 - name: wait for omid to start from script
   pause:
@@ -47,3 +54,5 @@
     enabled: yes
   when:
     - omsagent_service_state | length
+
+- debug: msg="{{ omsagent_tmp }}/omsagent-{{ omsagent_version }}.universal.{{ omsagent_creates_pattern }}.sh"
